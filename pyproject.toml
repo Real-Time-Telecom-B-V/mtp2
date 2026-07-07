@@ -1,0 +1,36 @@
+# Maturin build config for the `mtp2` wheel. The version is single-sourced from
+# Cargo.toml (`dynamic = ["version"]`), so PyPI and crates.io always ship the same
+# number. `extension-module` is the ONLY place that feature is enabled - never by
+# `cargo test`/`cargo clippy` (it un-links libpython and breaks Rust test binaries).
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "mtp2"
+description = "Rust-backed MTP2 (ITU-T Q.703) signal-unit framing + link state machine for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Real Time Telecom B.V." }]
+keywords = ["mtp2", "ss7", "q703", "tdm", "telecom"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Free Threading :: 3 - Stable",
+    "Topic :: Communications",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Real-Time-Telecom-B-V/mtp2"
+Repository = "https://github.com/Real-Time-Telecom-B-V/mtp2"
+
+[tool.maturin]
+# Mixed layout: compiled ext at `mtp2._mtp2`, pure-Python shim under python/.
+module-name = "mtp2._mtp2"
+python-source = "python"
+features = ["extension-module"]
